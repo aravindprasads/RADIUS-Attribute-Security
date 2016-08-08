@@ -3,6 +3,7 @@ Abstract
    This document proposes a method to provide end to end security to
    Attributes in RADIUS Messages.
 
+
 Introduction
 
    In a typical scenario, there could be multiple RADIUS proxies between
@@ -14,6 +15,7 @@ Introduction
    home server will typically be managed by different administrative
    entities. And Proxies have complete access to messages exchanged
    between NAS and RADIUS Server.
+
 
 Problem Scenario
 
@@ -66,6 +68,7 @@ Solution
    and the rest of parameters(K, E and H) will be configurations made at
    NAS/RADIUS Client and RADIUS Server. 
 
+
 Advantages
 
    Rogue Proxy cannot decrypt the protected Security Attribute contents.
@@ -88,6 +91,7 @@ Advantages
    cost and maintenance overhead.
 
    Sensitive contents are protected from man in the middle.
+
 
 References
 
