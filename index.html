@@ -33,7 +33,7 @@
 <p>This document proposes a method to provide end to end security to
    Attributes in RADIUS Messages.</p>
 
-<p>1  Introduction</p>
+<p>Introduction</p>
 
 <p>In a typical scenario, there could be multiple RADIUS proxies between
    NAS and RADIUS server. RADIUS ensures hop to hop integrity by using
@@ -45,7 +45,7 @@
    entities. And Proxies have complete access to messages exchanged
    between NAS and RADIUS Server.</p>
 
-<p>2  Problem Scenario</p>
+<p>Problem Scenario</p>
 
 <p>No end to end security in RADIUS. Security Mechanism like Radius over
    TLS provides only Hop to Hop security. TLS involves additional
@@ -66,7 +66,7 @@
    proxies in Proxy chaining scenarios. This can cause havoc in roaming
    environments.</p>
 
-<p>3  Solution</p>
+<p>Solution</p>
 
 <p>Introduce Security Attribute 'X' as a container to hold set of
    sensitive attributes that need to be protected. Sensitive attributes
@@ -95,7 +95,7 @@
    and the rest of parameters(K, E and H) will be configurations made at
    NAS/RADIUS Client and RADIUS Server. </p>
 
-<p>4  Advantages</p>
+<p>Advantages</p>
 
 <p>Rogue Proxy cannot decrypt the protected Security Attribute contents.
    Hence, security in Roaming scenarios is assured.</p>
@@ -118,9 +118,9 @@
 
 <p>Sensitive contents are protected from man in the middle.</p>
 
-<p>7  References</p>
+<p>References</p>
 
-<p>7.1  Normative References</p>
+<p>Normative References</p>
 
 <p>[RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.</p>
@@ -144,7 +144,7 @@
               Service (RADIUS) Protocol Extensions", RFC 6929,
               April 2013.</p>
 
-<p>7.2  Informative References</p>
+<p>Informative References</p>
 
 <p>[RFC2607] Abobam B., Vollbrecht J., "Proxy Chaining and Policy 
              Implementation in Roaming", RFC2607, June 1999.</p>
