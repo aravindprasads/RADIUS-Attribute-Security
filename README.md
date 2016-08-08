@@ -3,7 +3,7 @@ Abstract
    This document proposes a method to provide end to end security to
    Attributes in RADIUS Messages.
 
-1  Introduction
+Introduction
 
    In a typical scenario, there could be multiple RADIUS proxies between
    NAS and RADIUS server. RADIUS ensures hop to hop integrity by using
@@ -15,7 +15,7 @@ Abstract
    entities. And Proxies have complete access to messages exchanged
    between NAS and RADIUS Server.
 
-2  Problem Scenario
+Problem Scenario
 
    No end to end security in RADIUS. Security Mechanism like Radius over
    TLS provides only Hop to Hop security. TLS involves additional
@@ -37,7 +37,7 @@ Abstract
    environments.
 
 
-3  Solution
+Solution
 
    Introduce Security Attribute 'X' as a container to hold set of
    sensitive attributes that need to be protected. Sensitive attributes
@@ -66,7 +66,7 @@ Abstract
    and the rest of parameters(K, E and H) will be configurations made at
    NAS/RADIUS Client and RADIUS Server. 
 
-4  Advantages
+Advantages
 
    Rogue Proxy cannot decrypt the protected Security Attribute contents.
    Hence, security in Roaming scenarios is assured.
@@ -89,9 +89,9 @@ Abstract
 
    Sensitive contents are protected from man in the middle.
 
-7  References
+References
 
-7.1  Normative References
+  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -115,7 +115,7 @@ Abstract
               Service (RADIUS) Protocol Extensions", RFC 6929,
               April 2013.
 
-7.2  Informative References
+  Informative References
 
    [RFC2607] Abobam B., Vollbrecht J., "Proxy Chaining and Policy 
              Implementation in Roaming", RFC2607, June 1999.
