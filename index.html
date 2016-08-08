@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Radius Attribute Security by aravindprasad90</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Radius Attribute Security</h1>
+        <p>This draft proposes a method to provide end to end security to Attributes in RADIUS Messages.</p>
+
+        <p class="view"><a href="https://github.com/aravindprasad90/RADIUS-Attribute-Security">View the Project on GitHub <small>aravindprasad90/RADIUS-Attribute-Security</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/aravindprasad90/RADIUS-Attribute-Security/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/aravindprasad90/RADIUS-Attribute-Security/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/aravindprasad90/RADIUS-Attribute-Security">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>Abstract</p>
+
+<p>This document proposes a method to provide end to end security to
+   Attributes in RADIUS Messages.</p>
+
+<p>1  Introduction</p>
+
+<p>In a typical scenario, there could be multiple RADIUS proxies between
+   NAS and RADIUS server. RADIUS ensures hop to hop integrity by using
+   pre-shared secret between hops. End to end connection between NAS and
+   RADIUS server is through the set of transitive links involving
+   proxies. RADIUS over TLS can be deployed to have the security between
+   hop to hop only. Incase of Roaming scenarios, the NAS, proxies, and
+   home server will typically be managed by different administrative
+   entities. And Proxies have complete access to messages exchanged
+   between NAS and RADIUS Server.</p>
+
+<p>2  Problem Scenario</p>
+
+<p>No end to end security in RADIUS. Security Mechanism like Radius over
+   TLS provides only Hop to Hop security. TLS involves additional
+   overhead of certificate maintenance and cost. As the proxy has the
+   right to modify the message, that introduces following security
+   threats [RFC2607].</p>
+
+<p>Message editing
+   Attribute editing
+   Theft of password
+   Theft and modification of accounting data
+   Replay attacks
+   Connection hijacking
+   Fraudulent accounting.</p>
+
+<p>Both NAS and RADIUS Server are not aware of the changes made in the
+   message by the proxies and assumed to be in trusted relationship with
+   proxies in Proxy chaining scenarios. This can cause havoc in roaming
+   environments.</p>
+
+<p>3  Solution</p>
+
+<p>Introduce Security Attribute 'X' as a container to hold set of
+   sensitive attributes that need to be protected. Sensitive attributes
+   such as vlan, password,.. can be placed as sub TLVs. The attributes
+   that should not be modified by proxy can be also be placed in this
+   vendor specific attribute as sub-TLVs.</p>
+
+<p>Configure pre-shared secret 'K' that is known only to NAS/RADIUS
+   Client and RADIUS Server.</p>
+
+<p>Configure algorithm 'E' at NAS/RADIUS Client and RADIUS Server.
+   Algorithm can be any standard algorithm such as AES.</p>
+
+<p>Configure Hashing algorithm 'H' at NAS/RADIUS Client and RADIUS
+   Server. Algorithm can be any standard algorithm such as SHA-1.</p>
+
+<p>Hash the contents of Security Attribute X using the algorithm H and
+   append the hash as sub TLV. This ensures integrity of the message
+   that needs to be protected.</p>
+
+<p>Encrypt the contents of Security Attribute X using the algorithm E
+   with the key K. This ensures confidentiality of the message that
+   needs to be protected.</p>
+
+<p>Only the Security Attribute 'X' will be sent in the RADIUS Message
+   and the rest of parameters(K, E and H) will be configurations made at
+   NAS/RADIUS Client and RADIUS Server. </p>
+
+<p>4  Advantages</p>
+
+<p>Rogue Proxy cannot decrypt the protected Security Attribute contents.
+   Hence, security in Roaming scenarios is assured.</p>
+
+<p>Concept of un-modifiable or protected attributes is introduced. With
+   this, it is possible to exchange sensitive attributes safely between
+   NAS/RADIUS Client and RADIUS Server.</p>
+
+<p>Even if any Rogue proxy removes the Security Attribute, RADIUS server
+   or NAS can potentially drop the message as the Security Attribute is
+   expected in the message with respect to configuration.</p>
+
+<p>Both NAS and RADIUS Server can safely assume the trust relationships
+   with proxies.</p>
+
+<p>End to end security is accomplished with this mechanism.</p>
+
+<p>Compared to TLS, this proposal ensures end to end security with less
+   cost and maintenance overhead.</p>
+
+<p>Sensitive contents are protected from man in the middle.</p>
+
+<p>7  References</p>
+
+<p>7.1  Normative References</p>
+
+<p>[RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.</p>
+
+<p>[RFC2865]  Rigney, C., Willens, S., Rubens, A., and W. Simpson,
+              "Remote Authentication Dial In User Service (RADIUS)",
+              RFC 2865, June 2000.</p>
+
+<p>[RFC3575]  Aboba, B., "IANA Considerations for RADIUS (Remote
+              Authentication Dial In User Service)", RFC 3575,
+              July 2003.</p>
+
+<p>[RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
+              IANA Considerations Section in RFCs", BCP 26, RFC 5226,
+              May 2008.</p>
+
+<p>[RFC6158]  DeKok, A. and G. Weber, "RADIUS Design Guidelines",
+              BCP 158, RFC 6158, March 2011.</p>
+
+<p>[RFC6929]  DeKok, A. and A. Lior, "Remote Authentication Dial In User
+              Service (RADIUS) Protocol Extensions", RFC 6929,
+              April 2013.</p>
+
+<p>7.2  Informative References</p>
+
+<p>[RFC2607] Abobam B., Vollbrecht J., "Proxy Chaining and Policy 
+             Implementation in Roaming", RFC2607, June 1999.</p>
+
+<p>[RFC6613] DeKok, A., "RADIUS over TCP", May 2012.</p>
+
+<p>[RFC2868] Zorn, G., Leifer, D., Rubens A., Shriver, J.,
+             Holdrege, M., Goyret, I, "RADIUS Attributes for Tunnel
+             Protocol Support", June 2000</p>
+
+<p>[RFC6929] DeKok, A. and Lior , A., "Remote Authentication Dial-In
+             User Service RADIUS) Protocol Extensions", April 2013.</p>
+
+<p>[RFC5080] Nelson, D. and DeKok. A., "Common Remote Authentication
+             Dial In User Service (RADIUS) Implementation Issues and
+             Suggested Fixes"</p>
+
+<p>[RFC2867] Zorn, G., Aboba, B. and Mitton, D., "RADIUS Accounting
+             Modifications for Tunnel Protocol Support", June 2000.</p>
+
+<p>[RFC5997] DeKok. A., "Use of Status-Server Packets in the
+             Remote Authentication Dial In User Service (RADIUS)
+             Protocol", August 2010.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/aravindprasad90">aravindprasad90</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
