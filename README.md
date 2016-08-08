@@ -1,7 +1,3 @@
-                       RADIUS Attribute Security 
-              
-
-
 Abstract
 
    This document proposes a method to provide end to end security to
